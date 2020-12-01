@@ -1,1 +1,7 @@
 *.zip
+.Rproj.user
+*.nc
+.DS_Store
+.Rhistory
+NEON_conc-h2o-soil-salinity/
+NEON_eddy-flux*
