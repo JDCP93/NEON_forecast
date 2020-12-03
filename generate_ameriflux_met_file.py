@@ -280,7 +280,7 @@ def convert_rh_to_qair(rh, tair, press):
     tair : float
         deg C
     press : float
-        kPa
+        Pa
     rh : float
         %
     """
@@ -318,8 +318,8 @@ def calc_esat(tair):
 
 if __name__ == "__main__":
 
-    lat = 47.43805556
-    lon = 7.77694444
+    lat = 44.0646
+    lon = -71.28808
 
 
 
