@@ -325,7 +325,7 @@ if __name__ == "__main__":
 
 
     fname = "AMF_US-Bar_BASE_HH_5-5.csv"
-    df = pd.read_csv(fname)
+    df = pd.read_csv(fname,comment='#')
 
     df = df.rename(columns={'TIMESTAMP_START':'dates',
                             'TA_PI_F_1_1_1':'tair',
@@ -335,10 +335,10 @@ if __name__ == "__main__":
                             'P_1_1_1':'rainf',
                             'VPD_PI_1_1_1':'vpd',
                             'CO2_1_1_1':'co2'})
-
+    """
     df = df.drop(['sunshine_duration_min',
                   'vapor_presure_hPa'], axis=1)
-
+    """
     # Clean up the dates
     df['dates'] = df['dates'].astype(str)
     new_dates = []
@@ -366,13 +366,13 @@ if __name__ == "__main__":
     deg_2_kelvin = 273.15
     #df.vpd *= hpa_2_kpa
     df.tair += deg_2_kelvin
-    df.air_temp_C_2100 += deg_2_kelvin
+    #df.air_temp_C_2100 += deg_2_kelvin
     df.rainf /= 3600. # kg m-2 s-1
 
     # sort out bad values
     df.swdown = np.where(df.swdown < 0.0, 0.0, df.swdown)
     df.vpd = np.where(df.vpd <= 0.05, 0.05, df.vpd)
-    df.VPD_kPa_2100 = np.where(df.VPD_kPa_2100 <= 0.05, 0.05, df.VPD_kPa_2100)
+    #df.VPD_kPa_2100 = np.where(df.VPD_kPa_2100 <= 0.05, 0.05, df.VPD_kPa_2100)
 
     # Add pressure
     df['psurf'] = 101.325 * kpa_2_pa
@@ -382,8 +382,8 @@ if __name__ == "__main__":
 
     # Add qair
     df['qair'] = vpd_to_qair(df.vpd.values, df.tair.values, df.psurf.values)
-    df['qair_future'] = vpd_to_qair(df.VPD_kPa_2100.values, df.tair.values,
-                                    df.psurf.values)
+    #df['qair_future'] = vpd_to_qair(df.VPD_kPa_2100.values, df.tair.values,
+    #                                df.psurf.values)
 
     #plt.plot(df.qair, color="b")
     ##plt.plot(df.qair_future, color="r")
@@ -391,7 +391,7 @@ if __name__ == "__main__":
     #sys.exit()
     out_fname = "BART_met.nc"
     main(lat, lon, df, out_fname, co2_exp="amb", vpd_exp="amb")
-
+    """
     out_fname = "BART_met_eco2.nc"
     main(lat, lon, df, out_fname, co2_exp="ele", vpd_exp="amb")
 
@@ -400,3 +400,4 @@ if __name__ == "__main__":
 
     out_fname = "BART_met_eco2_evpd.nc"
     main(lat, lon, df, out_fname, co2_exp="ele", vpd_exp="ele")
+    """
