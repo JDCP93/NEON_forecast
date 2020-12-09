@@ -3,7 +3,8 @@
 *.nc
 .DS_Store
 .Rhistory
-NEON_conc-h2o-soil-salinity/
-NEON_eddy-flux*
+data/
+CABLEScripts/
 *.csv
 *.xlsx
+*.png
