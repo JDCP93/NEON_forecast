@@ -325,7 +325,7 @@ if __name__ == "__main__":
 
 
     fname = "AMF_US-Bar_BASE-BADM_5-5/AMF_US-Bar_BASE_HH_5-5.csv"
-    df = pd.read_csv(fname,comment='#')
+    df = pd.read_csv(fname,comment='#',na_values=-9999)
 
     df = df.rename(columns={'TIMESTAMP_START':'dates',
                             'TA_PI_F_1_1_1':'tair',
@@ -385,6 +385,12 @@ if __name__ == "__main__":
     df['qair'] = vpd_to_qair(df.vpd.values, df.tair.values, df.psurf.values)
     #df['qair_future'] = vpd_to_qair(df.VPD_kPa_2100.values, df.tair.values,
     #                                df.psurf.values)
+    # Interpolate CO2 and wind gaps
+    df['co2'].interpolate(method ='linear', limit_direction ='forward',
+                            inplace=True)
+
+    df['wind'].interpolate(method ='linear', limit_direction ='forward',
+                            inplace=True)
 
     #plt.plot(df.qair, color="b")
     ##plt.plot(df.qair_future, color="r")
