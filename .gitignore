@@ -5,3 +5,5 @@
 .Rhistory
 NEON_conc-h2o-soil-salinity/
 NEON_eddy-flux*
+*.csv
+*.xlsx
