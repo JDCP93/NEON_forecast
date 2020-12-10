@@ -19,7 +19,7 @@ import xarray as xr
 import datetime
 import matplotlib.pyplot as plt
 
-fname = "BART_met.nc"
+fname = "data/BART_met.nc"
 
 vars_to_keep = ['Tair','Qair','Rainf','Wind','PSurf','LWdown','SWdown','CO2air']
 ds = xr.open_dataset(fname, decode_times=False)
@@ -31,8 +31,15 @@ df['dates'] = pd.date_range(start=start, periods=len(df), freq=freq)
 df = df.set_index('dates')
 
 df.Tair -= 273.15
-df.SWdown *= 2.3
 
+print( "Tair: Min ", np.min(df.Tair), " Max ", np.max(df.Tair), " Mean ", np.mean(df.Tair) )
+print( "Qair: Min ", np.min(df.Qair), " Max ", np.max(df.Qair), " Mean ", np.mean(df.Qair) )
+print( "Rainf: Min ", np.min(df.Rainf), " Max ", np.max(df.Rainf), " Mean ", np.mean(df.Rainf) )
+print( "Wind: Min ", np.min(df.Wind), " Max ", np.max(df.Wind), " Mean ", np.mean(df.Wind) )
+print( "PSurf: Min ", np.min(df.PSurf), " Max ", np.max(df.PSurf), " Mean ", np.mean(df.PSurf) )
+print( "LWdown: Min ", np.min(df.LWdown), " Max ", np.max(df.LWdown), " Mean ", np.mean(df.LWdown) )
+print( "SWdown: Min ", np.min(df.SWdown), " Max ", np.max(df.SWdown), " Mean ", np.mean(df.SWdown) )
+print( "CO2air: Min ", np.min(df.CO2air), " Max ", np.max(df.CO2air), " Mean ", np.mean(df.CO2air) )
 
 df = df.resample("D").agg("mean")
 
