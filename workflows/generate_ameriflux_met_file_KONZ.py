@@ -29,7 +29,7 @@ def main(lat, lon, df, out_fname, co2_exp="amb", vpd_exp="amb"):
         secs += 1800.
 
     # create file and write global attributes
-    f = nc.Dataset(out_fname, 'w', format='NETCDF4')
+    f = nc.Dataset(out_fname, 'w', clobber=True, format='NETCDF4')
     f.description = 'KONZ met data, created by Jon Page'
     f.history = "Created by: %s" % (os.path.basename(__file__))
     f.creation_date = "%s" % (datetime.datetime.now())
@@ -324,21 +324,26 @@ if __name__ == "__main__":
 
 
 
-    fname = "AMF_US-Kon_BASE-BADM_5-5/AMF_US-Kon_BASE_HH_5-5.csv"
-    df = pd.read_csv(fname,comment='#',dtype=object)
+    fname = "data/AMF_US-Kon_BASE-BADM_5-5/AMF_US-Kon_BASE_HH_5-5_mod.csv"
+    df = pd.read_csv(fname,comment='#',na_values=-9999)
 
     df = df.rename(columns={'TIMESTAMP_START':'dates',
                             'TA_PI_F_1_1_1':'tair',
+                            'TA_1_1_1':'tair_raw',
                             'RH_PI_F_1_1_1':'rh',
                             'SW_IN_1_1_1':'swdown',
                             'WS_1_1_1':'wind',
                             'P_1_1_1':'rainf',
-                            'VPD_PI_1_1_1':'vpd',
+                            'VPD_PI_F_1_1_1':'vpd',
+                            'VPD_PI_1_1_1':'vpd_raw',
                             'CO2_1_1_1':'co2'})
     """
     df = df.drop(['sunshine_duration_min',
                   'vapor_presure_hPa'], axis=1)
     """
+    df.tair = np.fmax(df.tair,df.tair_raw)
+    df.vpd = np.fmax(df.vpd,df.vpd_raw)
+    df = df.drop(['tair_raw','vpd_raw'], axis = 1)
     # Clean up the dates
     df['dates'] = df['dates'].astype(str)
     new_dates = []
@@ -375,6 +380,31 @@ if __name__ == "__main__":
     df.rainf = np.where(df.rainf <= 0, 0, df.rainf)
     #df.VPD_kPa_2100 = np.where(df.VPD_kPa_2100 <= 0.05, 0.05, df.VPD_kPa_2100)
 
+    # Interpolate over gaps
+    df['co2'].interpolate(method ='linear', limit_direction ='forward',
+                            inplace=True)
+
+    df['wind'].interpolate(method ='linear', limit_direction ='forward',
+                            inplace=True)
+
+    df['swdown'].interpolate(method ='linear', limit_direction ='forward',
+                            inplace=True)
+
+    df['rh'].interpolate(method ='linear', limit_direction ='forward',
+                            inplace=True)
+
+    df['rainf'].interpolate(method ='linear', limit_direction ='forward',
+                            inplace=True)
+
+    df['tair'].interpolate(method ='linear', limit_direction ='forward',
+                            inplace=True)
+
+    df['vpd'].interpolate(method ='linear', limit_direction ='forward',
+                            inplace=True)
+
+    # Replace remaining NaNs (i.e. at the start) with mean
+    df = df.fillna(df.mean())
+
     # Add pressure
     df['psurf'] = 101.325 * kpa_2_pa
 
@@ -385,6 +415,7 @@ if __name__ == "__main__":
     df['qair'] = vpd_to_qair(df.vpd.values, df.tair.values, df.psurf.values)
     #df['qair_future'] = vpd_to_qair(df.VPD_kPa_2100.values, df.tair.values,
     #                                df.psurf.values)
+
 
     #plt.plot(df.qair, color="b")
     ##plt.plot(df.qair_future, color="r")

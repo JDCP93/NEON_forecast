@@ -19,7 +19,7 @@ import xarray as xr
 import datetime
 import matplotlib.pyplot as plt
 
-fname = "data/BART_met.nc"
+fname = "data/KONZ_met.nc"
 
 vars_to_keep = ['Tair','Qair','Rainf','Wind','PSurf','LWdown','SWdown','CO2air']
 ds = xr.open_dataset(fname, decode_times=False)
