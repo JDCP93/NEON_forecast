@@ -11,4 +11,3 @@ download_noaa_files_s3 <- function(siteID, date, cycle, local_directory){
   }
 }
 
-download_noaa_files_s3(siteID = "BART", date = "2020-12-13", cycle = "00", local_directory <- "~/Downloads/")
