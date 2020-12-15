@@ -22,3 +22,4 @@ plot_timeseries_comparison_manon_tuzet.py
 plot_water_potentials_surviving_and_dying.py
 __pycache__
 restart_files
+*.html

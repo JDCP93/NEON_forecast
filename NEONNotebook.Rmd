@@ -1,0 +1,17 @@
+---
+title: "NEON Notebook"
+output: html_notebook
+---
+
+This notebook is for the team " Norfolk Good" in the NEON Terrestrial forecasting
+challenge.
+
+By setting some initial parameters, this notebook will download the latest 
+NOAA forecasts for the four sites and turn them into inputs for the CABLE land
+model.
+
+```{r}
+
+```
+
+
