@@ -23,7 +23,15 @@ fname = "data/CABLEInputs/2020-12-13/BART_2020-12-13_ens01_met.nc"
 
 vars_to_keep = ['Tair','Qair','Rainf','Wind','PSurf','LWdown','SWdown','CO2air']
 ds = xr.open_dataset(fname, decode_times=False)
-freq = "0.5H"
+
+time_jump = int(ds.time[1].values) - int(ds.time[0].values)
+if time_jump == 3600:
+    freq = "H"
+elif time_jump == 1800:
+    freq = "30M"
+else:
+    raise("Time problem")
+
 units, reference_date = ds.time.attrs['units'].split('since')
 df = ds[vars_to_keep].squeeze(dim=["x","y"], drop=True).to_dataframe()
 start = reference_date.strip().split(" ")[0].replace("-","/")
@@ -31,6 +39,8 @@ df['dates'] = pd.date_range(start=start, periods=len(df), freq=freq)
 df = df.set_index('dates')
 
 df.Tair -= 273.15
+df.SWdown *= 2.3
+
 
 print( "Tair: Min ", np.min(df.Tair), " Max ", np.max(df.Tair), " Mean ", np.mean(df.Tair) )
 print( "Qair: Min ", np.min(df.Qair), " Max ", np.max(df.Qair), " Mean ", np.mean(df.Qair) )

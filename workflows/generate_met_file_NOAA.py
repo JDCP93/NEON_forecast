@@ -88,6 +88,12 @@ def main(lat, lon, df, out_fname, co2_exp="amb", vpd_exp="amb"):
     Rainf.long_name = "Rainfall rate"
     Rainf.CF_name = "precipitation_flux"
 
+#    Snowf = f.createVariable('Snowf', 'f8', ('time', 'y', 'x',))
+#    Snowf.units = "mm/s"
+#    Snowf.missing_value = -9999.
+#    Snowf.long_name = "Snowfall rate"
+#    Snowf.CF_name = "snowfall_flux"
+
     Qair = f.createVariable('Qair', 'f8', ('time', 'z', 'y', 'x',))
     Qair.units = "kg/kg"
     Qair.missing_value = -9999.
@@ -130,6 +136,8 @@ def main(lat, lon, df, out_fname, co2_exp="amb", vpd_exp="amb"):
 
 
     Rainf[:,0,0] = df.rainf.values.reshape(n_timesteps, ndim, ndim)
+    #Snowf[:,0,0] = df.rainf.values.reshape(n_timesteps, ndim, ndim)
+
 
     if vpd_exp == "ele":
         Qair[:,0,0,0] = df.qair_future.values.reshape(n_timesteps, ndim, ndim, ndim)
@@ -361,7 +369,7 @@ if __name__ == "__main__":
 
             # Add CO2
             df['co2'] = 400
-
+            df['rainfzero'] = 0
             # Define names
             ens = fname[-6:-4]
             out_fname = "data/CABLEInputs/"+forecast_date+"/"+siteID+"_"+forecast_date+"_ens"+ens+"_met.nc"
