@@ -88,6 +88,12 @@ def main(lat, lon, df, out_fname, co2_exp="amb", vpd_exp="amb"):
     Rainf.long_name = "Rainfall rate"
     Rainf.CF_name = "precipitation_flux"
 
+#    Snowf = f.createVariable('Snowf', 'f8', ('time', 'y', 'x',))
+#    Snowf.units = "mm/s"
+#    Snowf.missing_value = -9999.
+#    Snowf.long_name = "Snowfall rate"
+#    Snowf.CF_name = "snowfall_flux"
+
     Qair = f.createVariable('Qair', 'f8', ('time', 'z', 'y', 'x',))
     Qair.units = "kg/kg"
     Qair.missing_value = -9999.
@@ -320,12 +326,12 @@ def calc_esat(tair):
 
 if __name__ == "__main__":
     forecast_date = "2020-12-13"
-    siteID_list = ["BART","KONZ","OSBS","SRER"]
+    siteID_list = ["BART"]
 
 
     for siteID in siteID_list:
-        lat = 44.0639*(siteID=="BART")+31.91068*(siteID=="KONZ")+39.10077*(siteID=="OSBS")+31.91068*(siteID=="SRER")
-        lon = -71.2874*(siteID=="BART")+-81.99343*(siteID=="KONZ")+-96.56309*(siteID=="OSBS")+-110.83549*(siteID=="SRER")
+        lat = 44.0639*(siteID=="BART")
+        lon = -71.2874*(siteID=="BART")
         fname_list = os.listdir("data/forecastcsv/"+forecast_date+"/"+siteID)
         for fname in fname_list:
             inputcsv = "data/forecastcsv/"+forecast_date+"/"+siteID+"/"+fname
@@ -360,27 +366,22 @@ if __name__ == "__main__":
             df['dates'] = new_dates
             df = df.set_index('dates')
             df.index = pd.to_datetime(df.index)
-
-            # Replace remaining NaNs (i.e. at the start) with mean
-            df = df.fillna(df.mean())
-
-            # Open the average met file
-            averagemetcsv = "data/averagemet/"+siteID+"_"+forecast_date+".csv"
-            meandf = pd.read_csv(averagemetcsv,comment='#',na_values=-9999,index_col="time")
-
+############
+            # TESTING
+            # Set all values to sensible stuff
+            df['lwdown'] = 100
+            df['swdown'] = 200
+############
             # Add CO2
-            co2 = meandf['co2'].mean()
-            df['co2'] = co2
-
-            # Combine dataframes
-            df = pd.concat([meandf,df])
+            df['co2'] = 400
+            df['rainfzero'] = 0
 
             # Define names
             ens = fname[-6:-4]
-            out_fname = "data/CABLEInputs/"+forecast_date+"/"+siteID+"_"+forecast_date+"_ens"+ens+"_met.nc"
+            out_fname = "data/CABLEInputs/tests/test_RENAME_met.nc"
             print(out_fname)
-            if not os.path.exists("data/CABLEInputs/"+forecast_date):
-                os.makedirs("data/CABLEInputs/"+forecast_date)
+            if not os.path.exists("data/CABLEInputs/tests"):
+                os.makedirs("data/CABLEInputs/tests")
 
             # Create netCDF file
             main(lat, lon, df, out_fname, co2_exp="amb", vpd_exp="amb")
