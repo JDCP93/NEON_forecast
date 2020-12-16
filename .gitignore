@@ -15,7 +15,6 @@ plots/
 cable
 new_sumbal
 cable_utils.py
-run_cable_site.py
 seasonal_plot.py
 run_cable_all_exp.py
 plot_timeseries_comparison_manon_tuzet.py

@@ -377,10 +377,10 @@ if __name__ == "__main__":
 
             # Define names
             ens = fname[-6:-4]
-            out_fname = "data/CABLEInputs/"+forecast_date+"/"+siteID+"_"+forecast_date+"_ens"+ens+"_met.nc"
+            out_fname = "data/CABLEInputs/"+forecast_date+"/"+siteID+"/"+siteID+"_"+forecast_date+"_ens"+ens+"_met.nc"
             print(out_fname)
-            if not os.path.exists("data/CABLEInputs/"+forecast_date):
-                os.makedirs("data/CABLEInputs/"+forecast_date)
+            if not os.path.exists("data/CABLEInputs/"+forecast_date+"/"+siteID):
+                os.makedirs("data/CABLEInputs/"+forecast_date+"/"+siteID)
 
             # Create netCDF file
             main(lat, lon, df, out_fname, co2_exp="amb", vpd_exp="amb")
