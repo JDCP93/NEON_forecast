@@ -188,14 +188,14 @@ class RunCable(object):
         if self.verbose:
             cmd = './%s %s' % (self.cable_exe, nml_fname)
             error = subprocess.call(cmd, shell=True)
-            if error is 1:
+            if error == 1:
                 print("Job failed to submit")
                 raise
         else:
             # No outputs to the screen: stout and stderr to dev/null
             cmd = './%s %s > /dev/null 2>&1' % (self.cable_exe, nml_fname)
             error = subprocess.call(cmd, shell=True)
-            if error is 1:
+            if error == 1:
                 print("Job failed to submit")
 
 def merge_two_dicts(x, y):
@@ -208,7 +208,7 @@ if __name__ == "__main__":
 
     #------------- Change stuff ------------- #
     forecast_date = "2020-12-13"
-    siteID = "BART"
+    siteID = "SRER"
     met_dir = "data/CABLEInputs/"+forecast_date+"/"+siteID
     log_dir = "logs/"+forecast_date+"/"+siteID
     output_dir = "outputs/"+forecast_date+"/"+siteID

@@ -1,17 +1,25 @@
-*.zip
-.Rproj.user
-*.nc
-.DS_Store
-.Rhistory
+# Directories
+trash/
 data/
-*.csv
-*.xlsx
-*.png
 namelists/
 logs/
 outputs/
 plots/
-.ipynb_checkpoints
+restart_files/
+.ipynb_checkpoints/
+.Rproj.user/
+__pycache__/
+
+# File types
+*.html
+*.csv
+*.xlsx
+*.png
+*.zip
+*.nc
+*.nml
+
+# Specific files
 cable
 new_sumbal
 cable_utils.py
@@ -19,7 +27,6 @@ seasonal_plot.py
 run_cable_all_exp.py
 plot_timeseries_comparison_manon_tuzet.py
 plot_water_potentials_surviving_and_dying.py
-__pycache__
-restart_files
-*.html
-trash/
+
+.DS_Store
+.Rhistory

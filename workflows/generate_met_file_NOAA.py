@@ -30,7 +30,7 @@ def main(lat, lon, df, out_fname, co2_exp="amb", vpd_exp="amb"):
 
     # create file and write global attributes
     f = nc.Dataset(out_fname, 'w', clobber=True, format='NETCDF4')
-    f.description = 'BART met data, created by Jon Page'
+    f.description = 'Met data for CABLE, created by Jon Page'
     f.history = "Created by: %s" % (os.path.basename(__file__))
     f.creation_date = "%s" % (datetime.datetime.now())
     f.contact = "jon.page@unsw.edu.au"

@@ -11,11 +11,11 @@ NOAA forecasts for the four sites and turn them into inputs for the CABLE land
 model.
 
 First, set the global parameters:
- - data: the date for which we will take the forecast data
+ - forecast_date: the date for which we will take the forecast data
  - sites: the sites we want to forecast
 ```{r, Set parameters}
 rm(list=ls())
-forecast_date = Sys.Date()-2
+forecast_date = as.Date("2021-01-01")
 sites = c("BART","KONZ","OSBS","SRER")
 ```
 

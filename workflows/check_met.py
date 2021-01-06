@@ -19,7 +19,7 @@ import xarray as xr
 import datetime
 import matplotlib.pyplot as plt
 
-fname = "data/CABLEInputs/2020-12-13/BART_2020-12-13_ens01_met.nc"
+fname = "data/CABLEInputs/2020-12-13/KONZ/KONZ_2020-12-13_ens03_met.nc"
 
 vars_to_keep = ['Tair','Qair','Rainf','Wind','PSurf','LWdown','SWdown','CO2air']
 ds = xr.open_dataset(fname, decode_times=False)
