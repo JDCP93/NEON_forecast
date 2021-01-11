@@ -319,7 +319,7 @@ def calc_esat(tair):
 
 
 if __name__ == "__main__":
-    forecast_date = "2020-12-13"
+    forecast_date = "2021-01-01"
     siteID_list = ["BART","KONZ","OSBS","SRER"]
 
 

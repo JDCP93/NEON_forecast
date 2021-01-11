@@ -63,9 +63,9 @@ def vpd_to_qair(vpd, tair, press):
 
 if __name__ == "__main__":
 
-    forecast_date = "2020-12-13"
+    forecast_date = "2021-01-01"
     siteID = "OSBS"
-    fname = "data/AmeriFlux/AMF_US-SP1_BASE-BADM_4-1/AMF_US-SP1_BASE_HH_4-1.csv"
+    fname = "data/AmeriFlux/raw/AMF_US-SP1_BASE-BADM_4-1/AMF_US-SP1_BASE_HH_4-1.csv"
 
     # Open AmeriFlux data
     df = pd.read_csv(fname,comment='#',na_values=-9999)
