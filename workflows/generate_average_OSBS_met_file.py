@@ -158,6 +158,9 @@ if __name__ == "__main__":
     # Remove some rainfall values
     newdf.rainf = np.where(newdf.rainf <= 0.00001, 0, newdf.rainf)
 
+    # Set CO2 to 390 if NaN
+    newdf.co2 = np.where((newdf.co2).isna(), 390, newdf.co2)
+
     # Define name
     out_fname = "data/averagemet/"+siteID+"_"+forecast_date+".csv"
     # Save file
