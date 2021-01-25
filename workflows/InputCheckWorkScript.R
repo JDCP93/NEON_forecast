@@ -35,7 +35,7 @@ library(magrittr)
 library(tidyverse)
 
 # Source the function that compiles the outputs
-source("NEONSubmission.R")
+source("workflows/NEONSubmission.R")
 data = NEONSubmission("2021-01-01")
 # Create dataframe of daily values and QC counts
 Data_day <- data %>%

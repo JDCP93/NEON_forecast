@@ -104,7 +104,6 @@ if __name__ == "__main__":
     kpa_2_pa = 1000.
     deg_2_kelvin = 273.15
     df.tair += deg_2_kelvin
-    df.rainf += 0.1
     df.rainf /= 1800. # kg m-2 s-1
 
     # sort out bad values

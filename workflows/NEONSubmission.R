@@ -47,10 +47,13 @@ NEONSubmission <- function(forecast_date){
                     "le" = le,
                     "vswc" = vswc)
     
-    data = rbind(data,df)
-    
     # Close the netCDF file
     nc_close(netcdf)
+    
+    data = rbind(data,df)
+    
   }
+  
+  data
   
 }
