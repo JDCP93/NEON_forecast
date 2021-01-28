@@ -49,28 +49,26 @@ Data_day <- data %>%
 
 
 # Group by site - i.e. ensemble means
-ensemblemean = Data_day %>%
+SiteMean = Data_day %>%
   group_by(time,site) %>%
   summarise(nee = mean(nee),
+            nee_sd = sd(nee),
             gpp = mean(gpp),
+            gpp_sd = sd(gpp),
             le=mean(le),
-            vswc=mean(vswc))
+            le_sd = sd(le),
+            vswc=mean(vswc),
+            vswc_sd = sd(vswc))
 
 # Cut out just the last year (since previous 4 years are exactly the same)
-ensemblemeanforecast = ensemblemean[ensemblemean$time>="2020-01-01",]
+SiteMean = SiteMean[SiteMean$time>="2020-01-01",]
 
-# Plot nee, gpp and le
-plot = ggplot(ensemblemeanforecast) +
-  geom_line(aes(time,nee,color = site),size=2)
+# Create dataframe allowing nice plotting
+CABLE.df = data.frame("time" = rep(SiteMean$time,4),
+                "site" = rep(SiteMean$site,4),
+                "variable" = rep(c("nee","gpp","le","vswc")),
+                "mean" = c(SiteMean$nee,SiteMean$gpp,SiteMean$le,SiteMean$vswc),
+                "sd" = c(SiteMean$nee_sd,SiteMean$gpp_sd,SiteMean$le_sd,SiteMean$vswc_sd))
 
-plot
-
-plot = ggplot(ensemblemeanforecast) +
-  geom_line(aes(time,gpp,color = site),size=2)
-
-plot
-
-plot = ggplot(ensemblemeanforecast) +
-  geom_line(aes(time,le,color = site),size=1.2)
-
-plot
+# Load the target data - called target.df
+load("data/targets/targets.Rdata")

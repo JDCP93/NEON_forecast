@@ -20,7 +20,7 @@ metcheck <- function(site,forecast_date){
                "psurf" = mean(psurf),
                "lwdown" = mean(lwdown),
                "qair" = mean(qair),
-              "nee" = sum(nee))
+              "nee" = mean(nee))
   
   
   df = data.frame("time" = rep(data$time,11),
