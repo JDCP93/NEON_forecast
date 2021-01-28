@@ -215,16 +215,13 @@ def read_cable_file(fname):
 
 if __name__ == "__main__":
 
-    fname = "../data/swiss site soil water content 2018.xlsx"
-
-
-    fname = "../data/swiss site xylem pressure 2018.xlsx"
-
-
     #print(df_obs.swc.max(), df_obs.swc.min())
     #sys.exit()
-    fname = "outputs/BART_2020-12-13_ens01_met_out.nc"
+    siteID = "SRER"
+    forecast_date = "2021-01-01"
+    ensID = "01"
+    fname = "outputs/"+forecast_date+"/"+siteID+"/"+siteID+"_"+forecast_date+"_ens"+ensID+"_met_out.nc"
 
 
-    plot_fname = "water_potentials_surviving.png"
+    plot_fname = siteID+"_"+forecast_date+"_"+ensID+"_waterpotentials.png"
     main(fname, plot_fname)
