@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
     forecast_date = "2021-01-01"
     siteID = "KONZ"
-    fname = "data/AmeriFlux/raw/AMF_US-Kon_BASE-BADM_5-5/AMF_US-Kon_BASE_HH_5-5_mod.csv"
+    fname = "data/AmeriFlux/raw/AMF_US-Kon_BASE-BADM_5-5/AMF_US-Kon_BASE_HH_5-5.csv"
 
     # Open AmeriFlux data
     df = pd.read_csv(fname,comment='#',na_values=-9999)
@@ -79,7 +79,8 @@ if __name__ == "__main__":
                             'P_1_1_1':'rainf',
                             'VPD_PI_F_1_1_1':'vpd',
                             'VPD_PI_1_1_1':'vpd_raw',
-                            'CO2_1_1_1':'co2'})
+                            'CO2_1_1_1':'co2',
+                            'NEE_PI_F_1_1_1':'nee'})
 
     # Combine the bad columns
     df.tair = np.fmax(df.tair,df.tair_raw)
@@ -142,10 +143,11 @@ if __name__ == "__main__":
                      "wind" : np.NaN,
                      "rainf" : np.NaN,
                      "vpd" : np.NaN,
-                     "co2" : np.NaN})
+                     "co2" : np.NaN,
+                     "nee" : np.NaN})
 
     # Fill new dataframe with averages
-    for var in ['swdown','tair','rh', 'wind', 'rainf', 'vpd', 'co2']:
+    for var in ['swdown','tair','rh', 'wind', 'rainf', 'vpd', 'co2', 'nee']:
         for i in range(len(newdf)):
             month = newdf['time'][i].month
             day = newdf['time'][i].day

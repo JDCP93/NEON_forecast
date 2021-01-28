@@ -19,12 +19,13 @@ metcheck <- function(site,forecast_date){
                "co2" = mean(co2),
                "psurf" = mean(psurf),
                "lwdown" = mean(lwdown),
-               "qair" = mean(qair))
+               "qair" = mean(qair),
+              "nee" = sum(nee))
   
   
-  df = data.frame("time" = rep(data$time,10),
-                    "variable" = rep(c("tair","rh","swdown","wind","rainf","vpd","co2","psurf","lwdown","qair"),each = nrow(data)),
-                    "value" = c(data$tair,data$rh,data$swdown,data$wind,data$rainf,data$vpd,data$co2,data$psurf,data$lwdown,data$qair))
+  df = data.frame("time" = rep(data$time,11),
+                    "variable" = rep(c("tair","rh","swdown","wind","rainf","vpd","co2","psurf","lwdown","qair","nee"),each = nrow(data)),
+                    "value" = c(data$tair,data$rh,data$swdown,data$wind,data$rainf,data$vpd,data$co2,data$psurf,data$lwdown,data$qair,data$nee))
   
   
   library(ggplot2)

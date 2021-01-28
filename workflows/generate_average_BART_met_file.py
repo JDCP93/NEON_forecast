@@ -77,7 +77,8 @@ if __name__ == "__main__":
                             'WS_1_1_1':'wind',
                             'P_1_1_1':'rainf',
                             'VPD_PI_1_1_1':'vpd',
-                            'CO2_1_1_1':'co2'})
+                            'CO2_1_1_1':'co2',
+                            'FC_1_1_1':'nee'})
 
     # Clean up the dates
     df['dates'] = df['dates'].astype(str)
@@ -135,10 +136,11 @@ if __name__ == "__main__":
                      "wind" : np.NaN,
                      "rainf" : np.NaN,
                      "vpd" : np.NaN,
-                     "co2" : np.NaN})
+                     "co2" : np.NaN,
+                     "nee" : np.NaN})
 
     # Fill new dataframe with averages
-    for var in ['swdown','tair','rh', 'wind', 'rainf', 'vpd', 'co2']:
+    for var in ['swdown','tair','rh', 'wind', 'rainf', 'vpd', 'co2', 'nee']:
         for i in range(len(newdf)):
             month = newdf['time'][i].month
             day = newdf['time'][i].day
