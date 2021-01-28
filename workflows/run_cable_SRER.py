@@ -208,7 +208,7 @@ if __name__ == "__main__":
 
     #------------- Change stuff ------------- #
     forecast_date = "2021-01-01"
-    siteID = "KONZ"
+    siteID = "SRER"
     met_dir = "data/CABLEInputs/"+forecast_date+"/"+siteID
     log_dir = "logs/"+forecast_date+"/"+siteID
     output_dir = "outputs/"+forecast_date+"/"+siteID
