@@ -28,27 +28,31 @@ data_daily <- data %>%
 
 # Take the mean for each day of the year
 data_avgyr <- data_daily %>%
-                    group_by(siteID,month,day) %>%               # group by the siteID column by day of year
-                    summarise("nee" = mean(nee,na.rm=TRUE),
-                              "le" = mean(le,na.rm=TRUE),
-                              "vswc" = mean(vswc,na.rm=TRUE))
+                    group_by(month,day,siteID) %>%               # group by the siteID column by day of year
+                    summarise("nee_mean" = mean(nee,na.rm=TRUE),
+                              "le_mean" = mean(le,na.rm=TRUE),
+                              "vswc_mean" = mean(vswc,na.rm=TRUE),
+                              "nee_sd" = sd(nee,na.rm=TRUE),
+                              "le_sd" = sd(le,na.rm=TRUE),
+                              "vswc_sd" = sd(vswc,na.rm=TRUE))
 
 # Add a date column (set random year of 2000)
 data_avgyr <- data_avgyr %>%
-                    mutate(date = make_date(year = 2000, month, day))
+                    mutate(time = make_date(year = 2000, month, day))
 # Make the average year dates a nice format
 #data_avgyr$date = format(data_avgyr$date,"%b-%d")
 
 # Rearrange dataframe to allow for nice plotting
-target.df = data.frame("date"= rep(data_avgyr$date,3),
+target.df = data.frame("time"= rep(data_avgyr$time,3),
                 "site" = rep(data_avgyr$siteID,3),
                 "variable" = rep(c("nee","le","vswc"), each = nrow(data_avgyr)),
-                "value" = c(data_avgyr$nee,data_avgyr$le,data_avgyr$vswc))
+                "mean" = c(data_avgyr$nee_mean,data_avgyr$le_mean,data_avgyr$vswc_mean),
+                "sd" = c(data_avgyr$nee_sd,data_avgyr$le_sd,data_avgyr$vswc_sd))
 
 # Plot
 avgyrplot = ggplot(target.df) +
-            geom_point(aes(x=date,y=value,color=variable),alpha=0.5) +
-            geom_smooth(aes(x=date,y=value,color = variable),span = 0.1) +
+            geom_ribbon(aes(x=time,ymin=mean-sd,ymax=mean+sd),alpha=0.5) +
+            geom_point(aes(x=time,y=mean,color=variable)) +
             facet_grid(variable~site, scales="free") +
             theme_bw() +
             guides(color="none")

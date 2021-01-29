@@ -1,8 +1,8 @@
 NEONSubmission <- function(forecast_date){
   
   # A function to take the CABLE outputs for a certain forecast date 
-  # and return a single netCDF file, containing the individual ensemble 
-  # forecasts for each site. 
+  # and return a dataframe of results as well as single netCDF file,
+  # containing the mean ensemble forecasts for each site. 
   
   # Load the necessary libraries
   library(ncdf4)
@@ -54,6 +54,6 @@ NEONSubmission <- function(forecast_date){
     
   }
   
-  data
+  output = list(data)
   
 }
