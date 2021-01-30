@@ -31,7 +31,7 @@ class RunCable(object):
     def __init__(self, met_dir=None, log_dir=None, output_dir=None,
                  restart_dir=None, aux_dir=None, namelist_dir=None,
                  nml_fname="cable.nml",
-                 veg_fname="def_veg_params_zr_clitt_albedo_fix.txt",
+                 veg_fname="def_veg_params_plus5.txt",
                  soil_fname="def_soil_params.txt",
                  grid_fname="gridinfo_CSIRO_1x1.nc",
                  phen_fname="modis_phenology_csiro.txt",
@@ -173,7 +173,7 @@ class RunCable(object):
         return (met_files, url, rev)
 
     def clean_up_old_files(self, site):
-        out_fname = os.path.join(self.output_dir, "%s_CABLEoutput.nc" % (site))
+        out_fname = os.path.join(self.output_dir, "%s_plus5_out.nc" % (site))
         if os.path.isfile(out_fname):
             os.remove(out_fname)
 
@@ -208,11 +208,12 @@ if __name__ == "__main__":
 
     #------------- Change stuff ------------- #
     forecast_date = "2021-01-01"
-    met_dir = "data/CABLEInputs/"+forecast_date
-    log_dir = "logs/"+forecast_date
-    output_dir = "outputs/"+forecast_date
-    restart_dir = "restart_files/"+forecast_date
-    namelist_dir = "namelists/"+forecast_date
+    siteID = "KONZ"
+    met_dir = "data/CABLEInputs/"+forecast_date+"/"+siteID
+    log_dir = "logs/"+forecast_date+"/"+siteID+"/plus5"
+    output_dir = "outputs/"+forecast_date+"/"+siteID+"/plus5"
+    restart_dir = "restart_files/"+forecast_date+"/"+siteID+"/plus5"
+    namelist_dir = "namelists/"+forecast_date+"/"+siteID+"/plus5"
     aux_dir = "../CABLE/trunk/src/CABLE-AUX"
     cable_src = "../CABLE/trunk/src/Trunk_10_12_2020"
     mpi = False

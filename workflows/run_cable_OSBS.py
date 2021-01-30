@@ -31,7 +31,7 @@ class RunCable(object):
     def __init__(self, met_dir=None, log_dir=None, output_dir=None,
                  restart_dir=None, aux_dir=None, namelist_dir=None,
                  nml_fname="cable.nml",
-                 veg_fname="def_veg_params_zr_clitt_albedo_fix.txt",
+                 veg_fname="def_veg_params.txt",
                  soil_fname="def_soil_params.txt",
                  grid_fname="gridinfo_CSIRO_1x1.nc",
                  phen_fname="modis_phenology_csiro.txt",
