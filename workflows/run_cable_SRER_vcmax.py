@@ -33,7 +33,7 @@ class RunCable(object):
     def __init__(self, met_dir=None, log_dir=None, output_dir=None,
                  restart_dir=None, aux_dir=None, namelist_dir=None,
                  nml_fname="cable.nml",
-                 veg_fname="def_veg_params_plus20.txt",
+                 veg_fname="def_veg_params_vcmax_60.txt",
                  soil_fname="def_soil_params.txt",
                  grid_fname="gridinfo_CSIRO_1x1.nc",
                  phen_fname="modis_phenology_csiro.txt",
@@ -112,9 +112,6 @@ class RunCable(object):
             (out_fname,
              out_log_fname) = self.clean_up_old_files(site)
 
-            vcmax = 60.
-            fname = change_vcmax(fname, vcmax)
-
             # Add LAI to met file?
             if self.fixed_lai is not None or self.lai_dir is not None:
                 fname = change_LAI(fname, site, fixed=self.fixed_lai,
@@ -178,7 +175,7 @@ class RunCable(object):
         return (met_files, url, rev)
 
     def clean_up_old_files(self, site):
-        out_fname = os.path.join(self.output_dir, "%s_plus20_out.nc" % (site))
+        out_fname = os.path.join(self.output_dir, "%s_out.nc" % (site))
         if os.path.isfile(out_fname):
             os.remove(out_fname)
 
@@ -214,11 +211,12 @@ if __name__ == "__main__":
     #------------- Change stuff ------------- #
     forecast_date = "2021-01-01"
     siteID = "SRER"
-    met_dir = "data/CABLEInputs/"+forecast_date+"/"+siteID
-    log_dir = "logs/"+forecast_date+"/"+siteID+"/plus20"
-    output_dir = "outputs/"+forecast_date+"/"+siteID+"/plus20"
-    restart_dir = "restart_files/"+forecast_date+"/"+siteID+"/plus20"
-    namelist_dir = "namelists/"+forecast_date+"/"+siteID+"/plus20"
+    vcmax = "100"
+    met_dir = "data/CABLEInputs/"+forecast_date+"/"+siteID+"/vcmax_"+vcmax
+    log_dir = "logs/"+forecast_date+"/"+siteID+"/vcmax_"+vcmax
+    output_dir = "outputs/"+forecast_date+"/"+siteID+"/vcmax_"+vcmax
+    restart_dir = "restart_files/"+forecast_date+"/"+siteID+"/vcmax_"+vcmax
+    namelist_dir = "namelists/"+forecast_date+"/"+siteID+"/vcmax_"+vcmax
     aux_dir = "../CABLE/trunk/src/CABLE-AUX"
     cable_src = "../CABLE/trunk/src/Trunk_10_12_2020"
     mpi = False

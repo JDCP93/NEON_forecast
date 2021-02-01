@@ -85,6 +85,9 @@ NEONSubmission <- function(forecast_date){
   CABLE.df = data.frame("time" = rep(SiteMean$time,6),
                         "site" = rep(SiteMean$site,6),
                         "statistic" = rep(1:2, each = nrow(SiteMean), times = 3),
+                        "nee"
+                        "le"
+                        "vswc"
                         "variable" = rep(c("nee","le","vswc"), each = 2*nrow(SiteMean)),
                         "value" = c(SiteMean$nee_mean,
                                     SiteMean$nee_sd,
@@ -105,8 +108,7 @@ NEONSubmission <- function(forecast_date){
   #statistic_vals = c("mean","sd")
   time = ncdim_def(name = "time",
                    units = paste0("seconds since ",forecast_date), 
-                   vals = time_vals,
-                   unlim = TRUE)
+                   vals = time_vals)
   siteID = ncdim_def(name = "siteID", 
                      units= "", 
                      longname = "NEON site ID index", 
@@ -119,17 +121,17 @@ NEONSubmission <- function(forecast_date){
   
   var_nee = ncvar_def(name = "nee", 
                       units = "umol/m^2/s", 
-                      dim = list(siteID, statistic, time),
+                      dim = list(time, siteID, statistic),
                       longname="Daily Net Ecosystem Exchange of CO2",
                       missval = -9999) 
   var_le = ncvar_def(name = "le", 
                      units = "W/m^2", 
-                     dim = list(siteID, statistic, time),
+                     dim = list(time, siteID, statistic),
                      longname="Daily Surface Latent Heat Flux",
                      missval = -9999) 
   var_vswc = ncvar_def(name = "vswc", 
                        units = "m^3/m^3", 
-                       dim = list(siteID, statistic, time),
+                       dim = list(time, siteID, statistic),
                        longname="Daily Volumetric Soil Water Content as a weighted average down to 2m",
                        missval = -9999) 
   
@@ -138,7 +140,7 @@ NEONSubmission <- function(forecast_date){
   print(paste("The file has",ncnew$nvars,"variables"))# 
   print(paste("The file has",ncnew$ndim,"dimensions"))# 
   
-  ncvar_put( nc=ncnew, varid=var_nee, vals = CABLE.df$value[CABLE.df$variable=="nee"],start=c(1,1,1))
+  ncvar_put( nc=ncnew, varid=var_nee, vals = CABLE.df$value[CABLE.df$variable=="nee"],start=c(1,1,1),count=c(36,4,2))
   
   output = list(data)
   

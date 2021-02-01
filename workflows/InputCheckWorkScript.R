@@ -77,9 +77,9 @@ load("data/targets/targets.Rdata")
 # Lets combine them into one df
 # First we remove the unneeded data from CABLE.df
 CABLE.df_target = CABLE.df[CABLE.df$time<"2021-01-01" & CABLE.df$variable != "gpp",]
-plot.df = data.frame("time" = rep(target.df$time),
-                     "site" = c(target.df$site),
-                     "variable" = c(target.df$variable),
+plot.df = data.frame("time" = target.df$time,
+                     "site" = target.df$site,
+                     "variable" = target.df$variable,
                      "model_mean" = CABLE.df_target$mean,
                      "model_sd" = CABLE.df_target$sd,
                      "target_mean" = target.df$mean,
