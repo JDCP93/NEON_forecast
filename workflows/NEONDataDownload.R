@@ -16,7 +16,7 @@ options(stringsAsFactors=F)
 # Download net radiation data
 
 net_rad <- loadByProduct(dpID="DP1.00023.001", site=c("BART","KONZ","OSBS","SRER"),
-                         package="expanded", check.size=F, nCores = 4)
+                         package="expanded", check.size=F, nCores = 4, timeIndex = 30)
 
   list2env(net_rad, .GlobalEnv)
 
@@ -31,7 +31,7 @@ net_rad <- loadByProduct(dpID="DP1.00023.001", site=c("BART","KONZ","OSBS","SRER
 
 # Download air temp data
 air_tmp <- loadByProduct(dpID="DP1.00002.001", site=c("BART","KONZ","OSBS","SRER"),
-                         package="expanded", check.size=F, nCores = 4)
+                         package="expanded", check.size=F, nCores = 4, timeIndex = 30)
 
   list2env(air_tmp, .GlobalEnv)
   
@@ -46,7 +46,7 @@ air_tmp <- loadByProduct(dpID="DP1.00002.001", site=c("BART","KONZ","OSBS","SRER
 
 # Download wind speed data
 wnd_spd <- loadByProduct(dpID="DP1.00001.001", site=c("BART","KONZ","OSBS","SRER"),
-                         package="expanded", check.size=F, nCores = 4)
+                         package="expanded", check.size=F, nCores = 4, timeIndex = 30)
 
   list2env(wnd_spd, .GlobalEnv)
   
@@ -61,7 +61,7 @@ wnd_spd <- loadByProduct(dpID="DP1.00001.001", site=c("BART","KONZ","OSBS","SRER
 
 # Download precip data
 tot_ppt <- loadByProduct(dpID="DP1.00006.001", site=c("BART","KONZ","OSBS","SRER"),
-                         package="expanded", check.size=F, nCores = 4)
+                         package="expanded", check.size=F, nCores = 4, timeIndex = 30)
 
   list2env(tot_ppt, .GlobalEnv)
   
@@ -76,7 +76,7 @@ tot_ppt <- loadByProduct(dpID="DP1.00006.001", site=c("BART","KONZ","OSBS","SRER
 
 # Download pressure data
 sur_pre <- loadByProduct(dpID="DP1.00004.001", site=c("BART","KONZ","OSBS","SRER"),
-                         package="expanded", check.size=F, nCores = 4)
+                         package="expanded", check.size=F, nCores = 4, timeIndex = 30)
 
   list2env(sur_pre, .GlobalEnv)
   
@@ -91,7 +91,7 @@ sur_pre <- loadByProduct(dpID="DP1.00004.001", site=c("BART","KONZ","OSBS","SRER
 
 # Download relative humidity data
 rel_hum <- loadByProduct(dpID="DP1.00098.001", site=c("BART","KONZ","OSBS","SRER"),
-                         package="expanded", check.size=F, nCores = 4)
+                         package="expanded", check.size=F, nCores = 4, timeIndex = 30)
 
   list2env(rel_hum, .GlobalEnv)
   
