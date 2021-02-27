@@ -97,8 +97,8 @@ def calc_esat(tair):
 if __name__ == "__main__":
 
     forecast_date = "2021-02-01"
-    siteID = "BART"
-    fname = "data/NEON/raw/NEONMetFile_BART_2021-01-31.csv"
+    siteID = "KONZ"
+    fname = "data/NEON/raw/NEONMetFile_KONZ_2021-01-31.csv"
 
     # Open AmeriFlux data
     df = pd.read_csv(fname,comment='#',na_values=-9999)

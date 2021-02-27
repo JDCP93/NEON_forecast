@@ -1,15 +1,51 @@
+# This function is a hot, hot mess. Messier than my bedroom. Messier than my
+# Fresher's Week. Just... don't judge me. 
+
 GenerateMetData <- function(Site){
 
+  # Function to generate a met file .csv from downloaded NEON data, which is 
+  # assumed to be generated using the NEONDataDownload.R script.
+  
+  message("----------------------------------------------------\n%%%%%%%%%%% Generating Met File for ",
+          Site,
+          " %%%%%%%%%%%\n----------------------------------------------------")
   # Load libraries
   library(neonUtilities)
   library(geoNEON)
   library(raster)
   library(tidyverse)
+  library(zoo)
   
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   # NET RADIATION
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  #
+  hour = c("00",
+           "01",
+           "02",
+           "03",
+           "04",
+           "05",
+           "06",
+           "07",
+           "08",
+           "09",
+           "10",
+           "11",
+           "12",
+           "13",
+           "14",
+           "15",
+           "16",
+           "17",
+           "18",
+           "19",
+           "20",
+           "21",
+           "22",
+           "23")
   
+  message("Formatting radiation data")
   # Load radiation data
   rad30 <- readTableNEON(
     dataFile="./NEONData/SLRNR_30min.csv",
@@ -19,7 +55,7 @@ GenerateMetData <- function(Site){
   net_rad = rad30[rad30$siteID==Site,c("startDateTime","siteID","inSWMean","inLWMean")]
   
   # Add hours and minutes to dates
-  net_rad$hour = rep(c("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"), each = 2)
+  net_rad$hour = rep(hour,each = 2)
   net_rad$minute = rep(c("00","30"))
   net_rad$time = paste0(net_rad$startDateTime," ",net_rad$hour,":",net_rad$minute)
   
@@ -44,6 +80,7 @@ GenerateMetData <- function(Site){
   # AIR TEMPERATURE
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
+  message("Formatting temperature data")
   # Load temperature data
   tas30 <- readTableNEON(
     dataFile="./NEONData/SAAT_30min.csv",
@@ -53,7 +90,7 @@ GenerateMetData <- function(Site){
   air_tmp = tas30[tas30$siteID==Site,c("startDateTime","tempSingleMean")]
   
   # Add hours and minutes to dates
-  air_tmp$hour = rep(c("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"), each = 2)
+  air_tmp$hour = rep(hour, each = 2)
   air_tmp$minute = rep(c("00","30"))
   air_tmp$time = paste0(air_tmp$startDateTime," ",air_tmp$hour,":",air_tmp$minute)
   
@@ -76,6 +113,7 @@ GenerateMetData <- function(Site){
   # WIND SPEED
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
+  message("Formatting wind speed data")
   # Load wind speed data
   wnd30 <- readTableNEON(
     dataFile="./NEONData/2DWSD_30min.csv",
@@ -85,7 +123,7 @@ GenerateMetData <- function(Site){
   wnd_spd = wnd30[wnd30$siteID==Site,c("startDateTime","windSpeedMean")]
   
   # Add hours and minutes to dates
-  wnd_spd$hour = rep(c("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"), each = 2)
+  wnd_spd$hour = rep(hour, each = 2)
   wnd_spd$minute = rep(c("00","30"))
   wnd_spd$time = paste0(wnd_spd$startDateTime," ",wnd_spd$hour,":",wnd_spd$minute)
   
@@ -108,6 +146,7 @@ GenerateMetData <- function(Site){
   # PRECIPITATION
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
+  message("Formatting precipitation data")
   # Load precip data
   ppt30 <- readTableNEON(
     dataFile="./NEONData/THRPRE_30min.csv",
@@ -117,21 +156,21 @@ GenerateMetData <- function(Site){
   tot_ppt = ppt30[ppt30$siteID==Site,c("startDateTime","TFPrecipBulk")]
   
   # Add hours and minutes to dates
-  tot_ppt$hour = rep(c("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"), each = 2)
+  tot_ppt$hour = rep(hour, each = 2)
   tot_ppt$minute = rep(c("00","30"))
   tot_ppt$time = paste0(tot_ppt$startDateTime," ",tot_ppt$hour,":",tot_ppt$minute)
   
   # Re-time to half-hourly in case multiple measurements exist
   tot_ppt_hh <- tot_ppt %>%
     group_by(time) %>%               
-    summarise(TFPrecipBulk = mean(TFPrecipBulk,na.rm=TRUE))
+    summarise(TFPrecipBulk = sum(TFPrecipBulk,na.rm=TRUE))
   
   # Extract just the hour
   tot_ppt_hh$time = substr(tot_ppt_hh$time,1,13)
   # Re-time to hourly
   tot_ppt_hourly <- tot_ppt_hh %>%
     group_by(time) %>% 
-    summarise(TFPrecipBulk = mean(TFPrecipBulk,na.rm=TRUE))
+    summarise(TFPrecipBulk = sum(TFPrecipBulk,na.rm=TRUE))
   
   # Clean up
   rm(list=c("ppt30","tot_ppt","tot_ppt_hh"))
@@ -140,6 +179,7 @@ GenerateMetData <- function(Site){
   # SURFACE PRESSURE
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+  message("Formatting surface pressure data")
   # Load pressure data
   pre30 <- readTableNEON(
     dataFile="./NEONData/BP_30min.csv",
@@ -149,7 +189,7 @@ GenerateMetData <- function(Site){
   sur_pre = pre30[pre30$siteID==Site,c("startDateTime","staPresMean")]
   
   # Add hours and minutes to dates
-  sur_pre$hour = rep(c("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"), each = 2)
+  sur_pre$hour = rep(hour, each = 2)
   sur_pre$minute = rep(c("00","30"))
   sur_pre$time = paste0(sur_pre$startDateTime," ",sur_pre$hour,":",sur_pre$minute)
   
@@ -172,6 +212,7 @@ GenerateMetData <- function(Site){
   # RELATIVE HUMIDITY
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+  message("Formatting humidity data")
   # Load relative humidity data
   rh30 <- readTableNEON(
     dataFile="./NEONData/RH_30min.csv",
@@ -181,7 +222,7 @@ GenerateMetData <- function(Site){
   rel_hum = rh30[rh30$siteID==Site,c("startDateTime","RHMean")]
   
   # Add hours and minutes to dates
-  rel_hum$hour = rep(c("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"), each = 2)
+  rel_hum$hour = rep(hour, each = 2)
   rel_hum$minute = rep(c("00","30"))
   rel_hum$time = paste0(rel_hum$startDateTime," ",rel_hum$hour,":",rel_hum$minute)
   
@@ -200,6 +241,11 @@ GenerateMetData <- function(Site){
   # Clean up
   rm(list=c("rh30","rel_hum","rel_hum_hh"))
   
+  #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  # Output
+  #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  message("Saving met file")
   # Merge the different data
   climate = merge(air_tmp_hourly,net_rad_hourly,by.x = "time",by.y="time", all = TRUE)
   climate = merge(climate,rel_hum_hourly,by.x = "time",by.y="time", all = TRUE)
@@ -207,8 +253,24 @@ GenerateMetData <- function(Site){
   climate = merge(climate,tot_ppt_hourly,by.x = "time",by.y="time", all = TRUE)
   climate = merge(climate,wnd_spd_hourly,by.x = "time",by.y="time", all = TRUE)
   
-  climate$time = as.POSIXct(climate$time,format = "%Y-%m-%d %H")
+  climate$time = as.POSIXct(climate$time,format = "%Y-%m-%d %H",tz="UTC")
+  
+  # Interpolate over the NA values
+  climate[,2:8] = lapply(climate[,2:8], function(x) na.approx(x,na.rm=FALSE))
+  
+  # Remove any rows at the start that have NA values
+  message("Removing NA values from start of record")
+  k = 0
+  while (any(is.na(climate[1,]))==TRUE){
+    climate = climate[-1,]
+    k = k+1
+  }
+  message(k," rows with NA data removed")
   
   finaldate = as.Date(tail(climate$time,1))
-  write_csv2(climate,paste0("NEONMetFile_",Site,"_",finaldate,".Rdata"))
+  write.table(climate,
+              paste0("data/NEON/raw/NEONMetFile_",Site,"_",finaldate,".csv"),
+              sep = ",",
+              dec=".",
+              row.names = FALSE)
 }

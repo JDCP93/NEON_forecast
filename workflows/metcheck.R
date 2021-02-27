@@ -1,5 +1,5 @@
 metcheck <- function(site,forecast_date){
-  data = read.csv(paste0("data/averagemet/",site,"_",forecast_date,".csv"))
+  data = read.csv(paste0("data/NEON/raw/NEONMetFile_",site,"_",forecast_date,".csv"))
   
   library(lubridate)
   library(magrittr)
@@ -16,16 +16,14 @@ metcheck <- function(site,forecast_date){
                "wind" = mean(wind),
                "rainf" = sum(rainf)*60*60, # ppt in mm/s in hour blocks so turn into mm
                "vpd" = mean(vpd),
-               "co2" = mean(co2),
                "psurf" = mean(psurf),
                "lwdown" = mean(lwdown),
-               "qair" = mean(qair),
-              "nee" = mean(nee))
+               "qair" = mean(qair))
   
   
   df = data.frame("time" = rep(data$time,11),
-                    "variable" = rep(c("tair","rh","swdown","wind","rainf","vpd","co2","psurf","lwdown","qair","nee"),each = nrow(data)),
-                    "value" = c(data$tair,data$rh,data$swdown,data$wind,data$rainf,data$vpd,data$co2,data$psurf,data$lwdown,data$qair,data$nee))
+                    "variable" = rep(c("tair","rh","swdown","wind","rainf","vpd","psurf","lwdown","qair"),each = nrow(data)),
+                    "value" = c(data$tair,data$rh,data$swdown,data$wind,data$rainf,data$vpd,data$psurf,data$lwdown,data$qair))
   
   
   library(ggplot2)

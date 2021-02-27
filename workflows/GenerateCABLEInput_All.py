@@ -319,7 +319,7 @@ def calc_esat(tair):
 
 
 if __name__ == "__main__":
-    forecast_date = "2021-01-01"
+    forecast_date = "2021-02-01"
     siteID_list = ["BART","KONZ","OSBS","SRER"]
 
 
@@ -365,15 +365,14 @@ if __name__ == "__main__":
             df = df.fillna(df.mean())
 
             # Open the average met file
-            averagemetcsv = "data/averagemet/"+siteID+"_"+forecast_date+".csv"
-            meandf = pd.read_csv(averagemetcsv,comment='#',na_values=-9999,index_col="time")
+            NEONMetCSV = "data/NEON/processed/"+siteID+"_"+forecast_date+".csv"
+            NEONdf = pd.read_csv(NEONMetCSV,comment='#',na_values=-9999,index_col="dates")
 
             # Add CO2
-            co2 = meandf['co2'].mean()
-            df['co2'] = co2
+            df['co2'] = 400
 
             # Combine dataframes
-            df = pd.concat([meandf,df])
+            df = pd.concat([NEONdf,df])
 
             # Define names
             ens = fname[-6:-4]

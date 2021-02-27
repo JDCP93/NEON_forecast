@@ -1,6 +1,7 @@
 
 download_noaa_files_s3 <- function(siteID, date, cycle, local_directory){
   
+  message("Downloading NOAA forecast data for ",Site)
   Sys.setenv("AWS_DEFAULT_REGION" = "data",
              "AWS_S3_ENDPOINT" = "ecoforecast.org")
   
