@@ -1,4 +1,5 @@
 GenerateForecastCSV <- function(siteID,date){
+  message("Formatting forecast data for ",siteID," as csv")
   for (ens in sprintf("%02d", 1:30)){
     library(ncdf4)
     # Open the ensemble member forecast

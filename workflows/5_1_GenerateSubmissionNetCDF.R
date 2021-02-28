@@ -85,9 +85,6 @@ NEONSubmission <- function(forecast_date){
   CABLE.df = data.frame("time" = rep(SiteMean$time,6),
                         "site" = rep(SiteMean$site,6),
                         "statistic" = rep(1:2, each = nrow(SiteMean), times = 3),
-                        "nee"
-                        "le"
-                        "vswc"
                         "variable" = rep(c("nee","le","vswc"), each = 2*nrow(SiteMean)),
                         "value" = c(SiteMean$nee_mean,
                                     SiteMean$nee_sd,

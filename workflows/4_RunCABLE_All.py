@@ -156,9 +156,9 @@ class RunCable(object):
 
         # Run all the met files in the directory
         if len(self.met_subset) == 0:
-            met_files = glob.glob(os.path.join(self.met_dir, "*.nc"))
+            met_files = sorted(glob.glob(os.path.join(self.met_dir, "*.nc")))
         else:
-            met_files = [os.path.join(self.met_dir, i) for i in self.met_subset]
+            met_files = sorted([os.path.join(self.met_dir, i) for i in self.met_subset])
 
         cwd = os.getcwd()
         (url, rev) = get_svn_info(cwd, self.cable_src)
@@ -207,24 +207,25 @@ def merge_two_dicts(x, y):
 if __name__ == "__main__":
 
     #------------- Change stuff ------------- #
-    forecast_date = "2021-01-01"
-    siteID = "BART"
-    met_dir = "data/CABLEInputs/"+forecast_date+"/"+siteID
-    log_dir = "logs/"+forecast_date+"/"+siteID
-    output_dir = "outputs/"+forecast_date+"/"+siteID
-    restart_dir = "restart_files/"+forecast_date+"/"+siteID
-    namelist_dir = "namelists/"+forecast_date+"/"+siteID
-    aux_dir = "../CABLE/trunk/src/CABLE-AUX"
-    cable_src = "../CABLE/trunk/src/Trunk_10_12_2020"
-    mpi = False
-    num_cores = 4 # set to a number, if None it will use all cores...!
-    # if empty...run all the files in the met_dir
-    met_subset = []
-    sci_config = {}
-    # ------------------------------------------- #
+    forecast_date = "2021-02-01"
+    siteID_list = ["BART","KONZ","OSBS","SRER"]
+    for siteID in siteID_list:
+        met_dir = "data/CABLEInputs/"+forecast_date+"/"+siteID
+        log_dir = "logs/"+forecast_date+"/"+siteID
+        output_dir = "outputs/"+forecast_date+"/"+siteID
+        restart_dir = "restart_files/"+forecast_date+"/"+siteID
+        namelist_dir = "namelists/"+forecast_date+"/"+siteID
+        aux_dir = "../CABLE/trunk/src/CABLE-AUX"
+        cable_src = "../CABLE/trunk/src/Trunk_10_12_2020"
+        mpi = False
+        num_cores = 4 # set to a number, if None it will use all cores...!
+        # if empty...run all the files in the met_dir
+        met_subset = []
+        sci_config = {}
+        # ------------------------------------------- #
 
-    C = RunCable(met_dir=met_dir, log_dir=log_dir, output_dir=output_dir,
-                 restart_dir=restart_dir, aux_dir=aux_dir,
-                 namelist_dir=namelist_dir, met_subset=met_subset,
-                 cable_src=cable_src, mpi=mpi, num_cores=num_cores)
-    C.main(sci_config)
+        C = RunCable(met_dir=met_dir, log_dir=log_dir, output_dir=output_dir,
+                     restart_dir=restart_dir, aux_dir=aux_dir,
+                     namelist_dir=namelist_dir, met_subset=met_subset,
+                     cable_src=cable_src, mpi=mpi, num_cores=num_cores)
+        C.main(sci_config)

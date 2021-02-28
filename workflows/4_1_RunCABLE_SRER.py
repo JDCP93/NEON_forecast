@@ -207,8 +207,8 @@ def merge_two_dicts(x, y):
 if __name__ == "__main__":
 
     #------------- Change stuff ------------- #
-    forecast_date = "2021-01-01"
-    siteID = "KONZ"
+    forecast_date = "2021-02-01"
+    siteID = "SRER"
     met_dir = "data/CABLEInputs/"+forecast_date+"/"+siteID
     log_dir = "logs/"+forecast_date+"/"+siteID
     output_dir = "outputs/"+forecast_date+"/"+siteID

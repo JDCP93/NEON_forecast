@@ -1,18 +1,18 @@
 
 rm(list=ls())
-source("workflows/metcheck.R")
+source("workflows/2_2_CheckNEONMet.R")
 
 # Let's check the met files for sanity
-plot_BART = metcheck("BART","2021-01-01")
+plot_BART = CheckNEONMet("BART","2021-01-01")
 plot_BART
 
-plot_KONZ = metcheck("KONZ","2021-01-01")
+plot_KONZ = CheckNEONMet("KONZ","2021-01-01")
 plot_KONZ
 
-plot_OSBS = metcheck("OSBS","2021-01-01")
+plot_OSBS = CheckNEONMet("OSBS","2021-01-01")
 plot_OSBS
 
-plot_SRER = metcheck("SRER","2021-01-01")
+plot_SRER = CheckNEONMet("SRER","2021-01-01")
 plot_SRER
 
 
@@ -35,7 +35,7 @@ library(magrittr)
 library(tidyverse)
 
 # Source the function that compiles the outputs
-source("workflows/NEONSubmission.R")
+source("workflows/5_1_GenerateSubmissionNetCDF.R")
 data = NEONSubmission("2021-01-01")
 # Create dataframe of daily values and QC counts
 Data_day <- data %>%

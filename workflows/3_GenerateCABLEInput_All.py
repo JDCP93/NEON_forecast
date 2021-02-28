@@ -170,10 +170,11 @@ if __name__ == "__main__":
     for siteID in siteID_list:
         lat = 44.0639*(siteID=="BART")+31.91068*(siteID=="KONZ")+39.10077*(siteID=="OSBS")+31.91068*(siteID=="SRER")
         lon = -71.2874*(siteID=="BART")+-81.99343*(siteID=="KONZ")+-96.56309*(siteID=="OSBS")+-110.83549*(siteID=="SRER")
-        fname_list = os.listdir("data/forecastcsv/"+forecast_date+"/"+siteID)
+        fname_list = sorted(os.listdir("data/forecastcsv/"+forecast_date+"/"+siteID))
+        print("***** Generating CABLE inputs with 30 ensemble members for "+siteID+" *****")
         for fname in fname_list:
             inputcsv = "data/forecastcsv/"+forecast_date+"/"+siteID+"/"+fname
-            print(inputcsv)
+
             df = pd.read_csv(inputcsv,comment='#',na_values=-9999)
 
             df = df.rename(columns={'time':'dates',
@@ -221,7 +222,7 @@ if __name__ == "__main__":
             # Define names
             ens = fname[-6:-4]
             out_fname = "data/CABLEInputs/"+forecast_date+"/"+siteID+"/"+siteID+"_"+forecast_date+"_ens"+ens+"_met.nc"
-            print(out_fname)
+            print("Generating CABLE input for ensemble member "+ens)
             if not os.path.exists("data/CABLEInputs/"+forecast_date+"/"+siteID):
                 os.makedirs("data/CABLEInputs/"+forecast_date+"/"+siteID)
 
