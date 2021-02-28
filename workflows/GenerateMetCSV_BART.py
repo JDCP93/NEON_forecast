@@ -28,11 +28,11 @@ def rh_to_qair(rh, tair, press):
     Params:
     -------
     tair : float
-        deg C
+        Kelvin
     press : float
         kPa
     rh : float
-        [0-1]
+        [0-100]
     """
     tairC = tair - 273.15
 
@@ -43,7 +43,7 @@ def rh_to_qair(rh, tair, press):
     ws = 0.622 * esat / (press - esat)
 
     # specific humidity
-    qair = rh * ws
+    qair = rh/100 * ws
 
     return qair
 
@@ -53,14 +53,14 @@ def qair_to_vpd(qair, tair, press):
     Qair : float
         specific humidity [kg kg-1]
     tair : float
-        air temperature [deg C]
+        air temperature [kelvin]
     press : float
         air pressure [kPa]
     """
 
+    # Convert units
     PA_TO_KPA = 0.001
     HPA_TO_PA = 100.0
-
     tc = tair - 273.15
 
     # saturation vapor pressure (Pa)

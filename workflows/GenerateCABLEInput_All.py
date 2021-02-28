@@ -160,162 +160,6 @@ def main(lat, lon, df, out_fname, co2_exp="amb", vpd_exp="amb"):
 
     f.close()
 
-def convert_rh_to_qair(rh, tair, press):
-    """
-    Converts relative humidity to specific humidity (kg/kg)
-
-    Params:
-    -------
-    tair : float
-        deg C
-    press : float
-        kPa
-    rh : float
-        [0-1]
-    """
-    tairC = tair - 273.15
-
-    # Sat vapour pressure in Pa
-    esat = calc_esat(tairC)
-
-    # Specific humidity at saturation:
-    ws = 0.622 * esat / (press - esat)
-
-    # specific humidity
-    qair = rh * ws
-
-    return qair
-
-def calc_esat(tair):
-    """
-    Calculates saturation vapour pressure
-
-    Params:
-    -------
-    tair : float
-        deg C
-
-    Reference:
-    ----------
-    * Jones (1992) Plants and microclimate: A quantitative approach to
-    environmental plant physiology, p110
-    """
-
-    esat = 613.75 * np.exp(17.502 * tair / (240.97 + tair))
-
-    return esat
-
-def estimate_lwdown(tair, rh):
-    """
-    Synthesises downward longwave radiation based on Tair RH
-
-    Params:
-    -------
-    tair : float
-        deg C
-    rh : float
-        [0-1]
-
-    Reference:
-    ----------
-    * Abramowitz et al. (2012), Geophysical Research Letters, 39, L04808
-
-    """
-    zeroC = 273.15
-
-    sat_vapress = 611.2 * np.exp(17.67 * ((tair - zeroC) / (tair - 29.65)))
-    vapress = np.maximum(0.05, rh) * sat_vapress
-    lw_down = 2.648 * tair + 0.0346 * vapress - 474.0
-
-    return lw_down
-
-def qair_to_vpd(qair, tair, press):
-
-    """
-    Qair : float
-        specific humidity [kg kg-1]
-    tair : float
-        air temperature [deg C]
-    press : float
-        air pressure [kPa]
-    """
-
-    PA_TO_KPA = 0.001
-    HPA_TO_PA = 100.0
-
-    tc = tair - 273.15
-
-    # saturation vapor pressure (Pa)
-    es = HPA_TO_PA * 6.112 * np.exp((17.67 * tc) / (243.5 + tc))
-
-    # vapor pressure
-    ea = (qair * press) / (0.622 + (1.0 - 0.622) * qair)
-
-    vpd = (es - ea) * PA_TO_KPA
-
-    #vpd = np.where(vpd < 0.05, 0.05, vpd)
-
-    return vpd
-
-def vpd_to_qair(vpd, tair, press):
-
-    KPA_TO_PA = 1000.
-    HPA_TO_PA = 100.0
-
-    tc = tair - 273.15
-    # saturation vapor pressure (Pa)
-    es = 611.2 * np.exp((17.67 * tc) / (243.5 + tc))
-
-    # vapor pressure
-    ea = es - (vpd * HPA_TO_PA)
-
-    qair = 0.622 * ea / (press - (1 - 0.622) * ea)
-
-    return qair
-
-def convert_rh_to_qair(rh, tair, press):
-    """
-    Converts relative humidity to specific humidity (kg/kg)
-
-    Params:
-    -------
-    tair : float
-        deg C
-    press : float
-        Pa
-    rh : float
-        %
-    """
-
-    # Sat vapour pressure in Pa
-    esat = calc_esat(tair)
-
-    # Specific humidity at saturation:
-    ws = 0.622 * esat / (press - esat)
-
-    # specific humidity
-    qair = (rh / 100.0) * ws
-
-    return qair
-
-def calc_esat(tair):
-    """
-    Calculates saturation vapour pressure
-
-    Params:
-    -------
-    tair : float
-        deg C
-
-    Reference:
-    ----------
-    * Jones (1992) Plants and microclimate: A quantitative approach to
-    environmental plant physiology, p110
-    """
-
-    esat = 613.75 * np.exp(17.502 * tair / (240.97 + tair))
-
-    return esat
 
 
 if __name__ == "__main__":
@@ -368,11 +212,11 @@ if __name__ == "__main__":
             NEONMetCSV = "data/NEON/processed/"+siteID+"_"+forecast_date+".csv"
             NEONdf = pd.read_csv(NEONMetCSV,comment='#',na_values=-9999,index_col="dates")
 
-            # Add CO2
-            df['co2'] = 400
-
             # Combine dataframes
             df = pd.concat([NEONdf,df])
+
+            # Add CO2
+            df['co2'] = 400
 
             # Define names
             ens = fname[-6:-4]

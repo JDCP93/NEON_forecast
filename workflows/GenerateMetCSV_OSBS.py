@@ -28,11 +28,11 @@ def rh_to_qair(rh, tair, press):
     Params:
     -------
     tair : float
-        deg C
+        kelvin
     press : float
         kPa
     rh : float
-        [0-1]
+        [0-100]
     """
     tairC = tair - 273.15
 
@@ -43,7 +43,7 @@ def rh_to_qair(rh, tair, press):
     ws = 0.622 * esat / (press - esat)
 
     # specific humidity
-    qair = rh * ws
+    qair = rh/100 * ws
 
     return qair
 
