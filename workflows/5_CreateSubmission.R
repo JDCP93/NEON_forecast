@@ -1,15 +1,20 @@
+
+# Make sure environment is empty
 rm(list=ls())
 
+# Source required libraries
+library(lubridate)
 
+# Define parameters
 forecast_date = "2021-01-01"
 team_name = "norfolkcha"
 
+# Generate the submission in a csv format
 source("workflows/5_1_GenerateSubmissionCSV.R")
 NEONSubmission(forecast_date)
 
 forecast_file_name_base <- paste0("terrestrial_daily-",forecast_date,"-",team_name)
 forecast_file <- paste0(forecast_file_name_base, ".csv")
-
 
 # Generate metadata
 
@@ -25,3 +30,9 @@ meta_data_filename <- generate_metadata(forecast_file =  forecast_file,
                                         forecast_issue_time = as_date(with_tz(Sys.time(), "UTC")),
                                         forecast_iteration_id = forecast_date,
                                         forecast_file_name_base = forecast_file_name_base)
+
+
+# Save a plot of the results for comparison with previous forecasts and for
+# sanity checks
+source("workflows/5_3_PlotForecast.R")
+PlotForecast(forecast_date)

@@ -6,9 +6,13 @@ NEONSubmission <- function(forecast_date){
   
   # Load the necessary libraries
   library(ncdf4)
+  library(magrittr)
+  library(dplyr)
+  library(tidyverse)
   
   # Set the output filename
-  outname = paste0("terrestrial_daily-",forecast_date,"-norfolkcha.csv")
+  outname_csv = paste0("terrestrial_daily-",forecast_date,"-norfolkcha.csv")
+  outname_R = paste0("terrestrial_daily-",forecast_date,"-norfolkcha.Rdata")
   
   # List the CABLE outputs for the forecast date
   files = list.files(paste0("outputs/",forecast_date,"/"),recursive = TRUE)
@@ -65,7 +69,9 @@ NEONSubmission <- function(forecast_date){
               vswc=mean(vswc))
   
   # Cut to just the forecast period
-  Data_day = Data_day[Data_day$time>=forecast_date,]
+  Data_day = Data_day[Data_day$time >= as.Date(forecast_date),]
+  # Make sure we aren't overrunning the forecast
+  Data_day = Data_day[Data_day$time < (as.Date(forecast_date)+days(34)),]
   
   # Group by site - i.e. ensemble means
   SiteMean = Data_day %>%
@@ -89,7 +95,7 @@ NEONSubmission <- function(forecast_date){
                         "forecast" = 1,
                         "data_assimilation" = 0)
 
-  
-  write_csv(output.df,outname)
+  save(SiteMean,file = outname_R)
+  write_csv(output.df,outname_csv)
   
 }
