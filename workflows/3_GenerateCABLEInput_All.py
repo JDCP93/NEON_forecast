@@ -163,7 +163,7 @@ def main(lat, lon, df, out_fname, co2_exp="amb", vpd_exp="amb"):
 
 
 if __name__ == "__main__":
-    forecast_date = "2021-02-01"
+    forecast_date = "2021-03-01"
     siteID_list = ["BART","KONZ","OSBS","SRER"]
 
 

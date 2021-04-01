@@ -6,7 +6,7 @@ rm(list=ls())
 library(lubridate)
 
 # Define parameters
-forecast_date = "2021-01-01"
+forecast_date = "2021-03-01"
 team_name = "norfolkcha"
 
 # Generate the submission in a csv format

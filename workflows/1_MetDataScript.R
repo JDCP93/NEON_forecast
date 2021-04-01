@@ -9,10 +9,10 @@ source("workflows/1_3_GenerateForecastCSV.R")
 
 # Set parameters
 Sites = c("BART","KONZ","OSBS","SRER")
-forecast_date = "2021-02-01"
+forecast_date = "2021-03-01"
 
 # Download latest NEON observations
-NEONDataDownload()
+NEONDataDownload(Sites)
 
 # Generate previous met data
 for (Site in Sites){
