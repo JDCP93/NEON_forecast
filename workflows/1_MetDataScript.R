@@ -2,10 +2,10 @@
 rm(list=ls())
 
 # Source scripts
-source("workflows/0_NEONDataDownload.R")
-source("workflows/1-1_GenerateMetData.R")
-source("workflows/1-2_NOAAdownload.R")
-source("workflows/1-3_GenerateForecastCSV.R")
+source("workflows/1-1_NEONDataDownload.R")
+source("workflows/1-2_GenerateMetData.R")
+source("workflows/1-3_NOAAdownload.R")
+source("workflows/1-4_GenerateForecastCSV.R")
 
 #############################################
 #                                           #
@@ -15,14 +15,14 @@ source("workflows/1-3_GenerateForecastCSV.R")
 
 # Set parameters
 Sites = c("BART","KONZ","OSBS","SRER")
-forecast_date = "2021-04-01"
+forecast_date = "2021-06-01"
 
 # Download latest NEON observations
-NEONDataDownload(Sites)
+NEONDataDownload(Sites,forecast_date)
 
 # Generate previous met data
 for (Site in Sites){
-  GenerateMetData(Site)
+  GenerateMetData(Site,forecast_date)
 }
 
 # Download forecasts

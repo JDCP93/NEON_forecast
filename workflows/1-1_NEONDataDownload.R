@@ -1,4 +1,4 @@
-NEONDataDownload = function(Sites){
+NEONDataDownload = function(Sites,forecast_date){
 
 # Download and save NEON data
 
@@ -27,10 +27,10 @@ NEONDataDownload = function(Sites){
     list2env(net_rad, .GlobalEnv)
   
     write.csv(SLRNR_30min, 
-              "NEONData/SLRNR_30min.csv", 
+              paste0("NEONData/",forecast_date,"/SLRNR_30min.csv"), 
               row.names=F)
     write.csv(variables_00023, 
-              "NEONData/variables_00023.csv", 
+              paste0("NEONData/",forecast_date,"/variables_00023.csv"), 
               row.names=F)
   
     rm(list=ls())
@@ -46,10 +46,10 @@ NEONDataDownload = function(Sites){
     list2env(air_tmp, .GlobalEnv)
     
     write.csv(SAAT_30min, 
-              "NEONData/SAAT_30min.csv", 
+              paste0("NEONData/",forecast_date,"/SAAT_30min.csv"), 
               row.names=F)
     write.csv(variables_00002, 
-              "NEONData/variables_00002.csv", 
+              paste0("NEONData/",forecast_date,"/variables_00002.csv"), 
               row.names=F)
     
     rm(list=ls())
@@ -65,10 +65,10 @@ NEONDataDownload = function(Sites){
     list2env(wnd_spd, .GlobalEnv)
     
     write.csv(`2DWSD_30min`, 
-              "NEONData/2DWSD_30min.csv", 
+              paste0("NEONData/",forecast_date,"/2DWSD_30min.csv"), 
               row.names=F)
     write.csv(variables_00001, 
-              "NEONData/variables_00001.csv", 
+              paste0("NEONData/",forecast_date,"/variables_00001.csv"), 
               row.names=F)
     
     rm(list=ls())
@@ -84,10 +84,10 @@ NEONDataDownload = function(Sites){
     list2env(tot_ppt, .GlobalEnv)
     
     write.csv(THRPRE_30min, 
-              "NEONData/THRPRE_30min.csv", 
+              paste0("NEONData/",forecast_date,"/THRPRE_30min.csv"), 
               row.names=F)
     write.csv(variables_00006, 
-              "NEONData/variables_00006.csv", 
+              paste0("NEONData/",forecast_date,"/variables_00006.csv"), 
               row.names=F)
     
     rm(list=ls())
@@ -103,10 +103,10 @@ NEONDataDownload = function(Sites){
     list2env(sur_pre, .GlobalEnv)
     
     write.csv(BP_30min, 
-              "NEONData/BP_30min.csv", 
+              paste0("NEONData/",forecast_date,"/BP_30min.csv"), 
               row.names=F)
     write.csv(variables_00004, 
-              "NEONData/variables_00004.csv", 
+              paste0("NEONData/",forecast_date,"/variables_00004.csv"), 
               row.names=F)
     
     rm(list=ls())
@@ -122,10 +122,10 @@ NEONDataDownload = function(Sites){
     list2env(rel_hum, .GlobalEnv)
     
     write.csv(RH_30min, 
-              "NEONData/RH_30min.csv", 
+              paste0("NEONData/",forecast_date,"/RH_30min.csv"), 
               row.names=F)
     write.csv(variables_00098, 
-              "NEONData/variables_00098.csv", 
+              paste0("NEONData/",forecast_date,"/variables_00098.csv"), 
               row.names=F)
     
     rm(list=ls())
