@@ -101,7 +101,7 @@ class RunCable(object):
 
         for fname in met_files:
             site = os.path.basename(fname).split(".")[0]
-            print(site)
+            print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"+site+"\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
 
             base_nml_fn = os.path.join(self.grid_dir, "%s" % (self.nml_fname))
             nml_fname = "cable_%s.nml" % (site)
@@ -207,7 +207,7 @@ def merge_two_dicts(x, y):
 if __name__ == "__main__":
 
     #------------- Change stuff ------------- #
-    forecast_date = "2021-04-01"
+    forecast_date = "2021-05-01"
     siteID_list = ["BART","KONZ","OSBS","SRER"]
     for siteID in siteID_list:
         met_dir = "data/CABLEInputs/"+forecast_date+"/"+siteID
