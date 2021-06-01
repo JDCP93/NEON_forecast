@@ -245,7 +245,6 @@ GenerateMetData <- function(Site,forecast_date){
   # Output
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
-  message("Saving met file")
   # Merge the different data
   climate = merge(air_tmp_hourly,net_rad_hourly,by.x = "time",by.y="time", all = TRUE)
   climate = merge(climate,rel_hum_hourly,by.x = "time",by.y="time", all = TRUE)
@@ -267,6 +266,11 @@ GenerateMetData <- function(Site,forecast_date){
   }
   message(k," rows with NA data removed")
   
+  # Fill-forward NAs remaining
+  message(sum(is.na(climate))," NAs remaining. Will fill forward")
+  climate = climate %>% fill(2:8)
+  
+  message("Saving met file")
   finaldate = as.Date(tail(climate$time,1))
   write.table(climate,
               paste0("data/NEON/raw/NEONMetFile_",Site,"_",finaldate,".csv"),

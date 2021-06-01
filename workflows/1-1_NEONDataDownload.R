@@ -15,6 +15,9 @@ NEONDataDownload = function(Sites,forecast_date){
   # Set global option to NOT convert all character variables to factors
   options(stringsAsFactors=F)
   
+  # Create directory
+  dir.create(paste0("NEONData/",forecast_date), showWarnings = FALSE)
+  
   # Download net radiation data
   
   net_rad <- loadByProduct(dpID="DP1.00023.001",
